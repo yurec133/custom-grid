@@ -17,21 +17,13 @@ export const ReorderContext = React.createContext({
   dragStart: () => {},
 });
 
-const classSlotCell = "k-scheduler-cell k-slot-cell k-nonwork-hour";
-const allClassSlotCell = "." + classSlotCell.replace(/ /g, ".");
+const schedulerCellClass = "k-scheduler-cell k-slot-cell k-nonwork-hour";
+const allClassSlotCell = "." + schedulerCellClass.replace(/ /g, ".");
 
 const updateTargetBackground = (target, color) => {
-  if (target.className === classSlotCell) {
+  if (target.className === schedulerCellClass) {
     target.style.background = color;
   }
-};
-const handleDragOver = (e) => {
-  const target = document.elementFromPoint(e.event.clientX, e.event.clientY);
-  const allElements = document.querySelectorAll(allClassSlotCell);
-  allElements.forEach((element) => {
-    updateTargetBackground(element, "");
-  });
-  updateTargetBackground(target, "rgba(255, 124, 115, 0.5)");
 };
 const CustomItem = (props) => {
   const {
@@ -50,6 +42,15 @@ const CustomGrid = () => {
   const [activeItem, setActiveItem] = React.useState(null);
   const [data, setData] = React.useState([]);
 
+  const handleDragOver = (e) => {
+    const schedulerElement = MyScheduler.current.element;
+    const target = document.elementFromPoint(e.event.clientX, e.event.clientY);
+    const allElements = schedulerElement.querySelectorAll(allClassSlotCell);
+    allElements.forEach((element) => {
+      updateTargetBackground(element, "");
+    });
+    updateTargetBackground(target, "rgba(255, 124, 115, 0.5)");
+  };
   const handleDropItem = (e) => {
     if (!activeItem) {
       return;
@@ -82,19 +83,13 @@ const CustomGrid = () => {
         old
           .filter(
             (item) =>
-              deleted.find((current) => current.TaskID === item.TaskID) ===
-              undefined
+              deleted.find((current) => current.id === item.id) === undefined
           )
           .map(
-            (item) =>
-              updated.find((current) => current.TaskID === item.TaskID) || item
+            (item) => updated.find((current) => current.id === item.id) || item
           )
           .concat(
-            created.map((item) =>
-              Object.assign({}, item, {
-                TaskID: guid(),
-              })
-            )
+            created.map((item) => Object.assign({}, item, { id: guid() }))
           )
       );
     },
@@ -112,7 +107,6 @@ const CustomGrid = () => {
           <Scheduler
             editable={true}
             onDataChange={handleDataChange}
-            ref={MyScheduler}
             data={data}
             defaultDate={new Date("2013/6/13")}
             item={CustomItem}
@@ -131,7 +125,7 @@ const CustomGrid = () => {
                     color: "#54677B",
                   },
                 ],
-                field: "PersonIDs",
+                field: "StatusIDs",
                 valueField: "value",
                 textField: "text",
                 colorField: "color",

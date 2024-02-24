@@ -81,6 +81,7 @@ export const DraggableRow = (props) => {
         document.body
       )}
       <tr
+        // eslint-disable-next-line react/prop-types
         {...props.elementProps}
         ref={element}
         style={{
