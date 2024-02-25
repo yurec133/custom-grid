@@ -146,7 +146,6 @@ const CustomGrid = () => {
             <DraggableRow elementProps={row.props} {...rowProps} />
           )}
         >
-          <Column title="" width="80px" cell={DragHandleCell} />
           <Column field="taskID" title="ID" cell={DragHandleCell} />
           <Column field="title" title="Name" cell={DragHandleCell} />
           <Column field="length" title="Length" cell={DragHandleCell} />
