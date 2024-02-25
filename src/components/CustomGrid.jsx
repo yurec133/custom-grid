@@ -6,12 +6,13 @@ import {
   Scheduler,
   WeekView,
   MonthView,
-  SchedulerItem,
 } from "@progress/kendo-react-scheduler";
 import { guid } from "@progress/kendo-react-common";
 import { DragHandleCell } from "./DragHandleCell.jsx";
 import { DraggableRow } from "./DraggableRow.jsx";
 import gridData from "../data.js";
+import CustomItem from "./CustomItem.jsx";
+import {CustomViewSlot} from "./CustomSlot.jsx";
 
 export const ReorderContext = React.createContext({
   dragStart: () => {},
@@ -24,17 +25,6 @@ const updateTargetBackground = (target, color) => {
   if (target.className === schedulerCellClass) {
     target.style.background = color;
   }
-};
-const CustomItem = (props) => {
-  const {
-    // eslint-disable-next-line react/prop-types
-    dataItem: { title, length },
-  } = props;
-  return (
-    <SchedulerItem {...props}>
-      {title} {length}
-    </SchedulerItem>
-  );
 };
 
 const CustomGrid = () => {
@@ -52,6 +42,7 @@ const CustomGrid = () => {
     });
     updateTargetBackground(target, "rgba(255, 124, 115, 0.5)");
   };
+
   const handleDropItem = (e) => {
     if (!activeItem) {
       return;
@@ -106,11 +97,19 @@ const CustomGrid = () => {
           childRef={MyDroppable}
         >
           <Scheduler
-            editable={true}
+            editable={{
+              select: true,
+              remove: true,
+              drag: false,
+              resize: false,
+              add: true,
+              edit: true,
+            }}
             onDataChange={handleDataChange}
             data={data}
             defaultDate={new Date("2013/6/13")}
-            item={CustomItem}
+            viewItem={CustomItem}
+            viewSlot={CustomViewSlot}
             ref={MyScheduler}
             resources={[
               {
@@ -127,7 +126,7 @@ const CustomGrid = () => {
                     color: "#54677B",
                   },
                 ],
-                field: "StatusIDs",
+                field: "statusId",
                 valueField: "value",
                 textField: "text",
                 colorField: "color",
