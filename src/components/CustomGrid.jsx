@@ -39,11 +39,12 @@ const CustomItem = (props) => {
 
 const CustomGrid = () => {
   const MyScheduler = React.useRef();
+  const MyDroppable = React.useRef();
   const [activeItem, setActiveItem] = React.useState(null);
   const [data, setData] = React.useState([]);
 
   const handleDragOver = (e) => {
-    const schedulerElement = MyScheduler.current.element;
+    const schedulerElement = MyDroppable.current.element;
     const target = document.elementFromPoint(e.event.clientX, e.event.clientY);
     const allElements = schedulerElement.querySelectorAll(allClassSlotCell);
     allElements.forEach((element) => {
@@ -102,7 +103,7 @@ const CustomGrid = () => {
         <Droppable
           onDrop={handleDropItem}
           onDragOver={handleDragOver}
-          childRef={MyScheduler}
+          childRef={MyDroppable}
         >
           <Scheduler
             editable={true}
@@ -110,6 +111,7 @@ const CustomGrid = () => {
             data={data}
             defaultDate={new Date("2013/6/13")}
             item={CustomItem}
+            ref={MyScheduler}
             resources={[
               {
                 name: "Status",
@@ -144,6 +146,7 @@ const CustomGrid = () => {
             <DraggableRow elementProps={row.props} {...rowProps} />
           )}
         >
+          <Column title="" width="80px" cell={DragHandleCell} />
           <Column field="taskID" title="ID" cell={DragHandleCell} />
           <Column field="title" title="Name" cell={DragHandleCell} />
           <Column field="length" title="Length" cell={DragHandleCell} />
