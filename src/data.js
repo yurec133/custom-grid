@@ -14,7 +14,7 @@ const data = [
   {
     taskID: 3,
     ownerId: 2,
-    title: "The Perks of Being a Wallflower",
+    title: "The Perks of Being a Wallflower The Perks of Being a Wallflower The Perks of Being a Wallflower The Perks of Being a Wallflower",
     length: 3.5,
   },
   {

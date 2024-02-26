@@ -5,6 +5,7 @@ export const CustomViewSlot = (props) => {
       {...props}
       style={{
         ...props.style,
+          minHeight: "40px",
       }}
     />
   );
