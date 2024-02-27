@@ -13,6 +13,7 @@ import { DraggableRow } from "./DraggableRow.jsx";
 import gridData from "../data.js";
 import CustomItem from "./CustomItem.jsx";
 import {CustomViewSlot} from "./CustomSlot.jsx";
+import CustomViewItem from "./CustomViewItem.jsx";
 
 export const ReorderContext = React.createContext({
   dragStart: () => {},
@@ -107,8 +108,9 @@ const CustomGrid = () => {
             }}
             onDataChange={handleDataChange}
             data={data}
-            defaultDate={new Date("2013/6/13")}
-            viewItem={CustomItem}
+            defaultDate={new Date("2024/2/13")}
+            item={CustomItem}
+            viewItem={CustomViewItem}
             viewSlot={CustomViewSlot}
             ref={MyScheduler}
             resources={[
